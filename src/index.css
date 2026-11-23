@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --paper: #f2f4f5;
+  --sheet: #ffffff;
+  --sheet-subtle: #e9eef1;
+  --ink: #0f222e;
+  --muted: #4b6170;
+  --line: #cfd8de;
+  --grid: rgba(15, 34, 46, 0.045);
+
+  --crude: #c95716;
+  --crude-hover: #b24b11;
+  --crude-ink: #ffffff;
+  --water: #1b7fae;
+  --gas: #6358c8;
+  --electric: #b57c08;
+  --ok: #1b8347;
+  --warn: #b4690e;
+  --crit: #c22e2e;
+  --steel: #8796a1;
+  --coat: #2f6f62;
+
+  --f-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+
+.dark {
+  --paper: #0b161d;
+  --sheet: #112029;
+  --sheet-subtle: #162834;
+  --ink: #e4edf2;
+  --muted: #96aab8;
+  --line: #233847;
+  --grid: rgba(228, 237, 242, 0.04);
+
+  --crude: #ee7a36;
+  --crude-hover: #f58a4b;
+  --crude-ink: #1a0d05;
+  --water: #4fb3e2;
+  --gas: #988ef0;
+  --electric: #eab308;
+  --ok: #3ccf7f;
+  --warn: #f0ad4e;
+  --crit: #ff6b6b;
+  --steel: #9fb0bc;
+  --coat: #4fa190;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--f-display);
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--crude);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+.font-display {
+  font-family: var(--f-display);
+}
+
+.font-mono-tech {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.blueprint-grid {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+.schematic-flow {
+  stroke-dasharray: 2 14;
+  animation: flowDash 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .schematic-flow {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

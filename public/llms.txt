@@ -1,0 +1,18 @@
+# Arteria
+
+> Software de monitoreo IoT para oleoductos, gasoductos, poliductos, acueductos y redes eléctricas (transmisión 230/115 kV, distribución 13,2 kV, subestaciones, parques solares, eólicos y centrales hidroeléctricas) en Colombia y Latinoamérica. Muestra la red en 3D sobre el relieve real y en diagrama unifilar por módulos, con la lectura en vivo de cada sensor y disparo de órdenes de mantenimiento.
+
+## Páginas de especialidad
+- `/` — Vista general, anatomía 3D, catálogo de 34 sensores en vivo, calculadora de piloto y checklist normativo por sector.
+- `/soluciones/oleoductos-api-1130` — Monitoreo de oleoductos y gasoductos en 3D bajo criterios API 1130, API 570 y NACE SP0169.
+- `/soluciones/agua-no-contabilizada-acueductos` — Control de agua no contabilizada (IANC) y cumplimiento de Resoluciones 2115/2007 y 0631/2015.
+- `/soluciones/integracion-scada-modbus-dnp3` — Conexión de PLCs Modbus, Profibus, DNP3 e IEC 61850 a la nube mediante gateways sin alterar la lógica SCADA.
+- `/soluciones/redes-electricas-subestaciones-3d` — Monitoreo 3D y diagrama unifilar por módulos para líneas 230/115/13,2 kV, parques solares/eólicos, hidroeléctricas y subestaciones (DGA H₂, SF₆, descargas parciales).
+
+## Oferta de entrada (Sin compromiso)
+- Vista previa 3D en 48 horas enviando el trazado KML, KMZ o GeoJSON de la red.
+- Piloto acotado de 30 días en una estación o sector hidráulico, con licenciamiento por puntos activos y propiedad total de datos.
+
+## Contacto comercial
+- Correo: dinaelospino07@gmail.com
+- WhatsApp: +57 310 693 3958
