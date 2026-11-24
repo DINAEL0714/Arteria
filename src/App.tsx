@@ -425,6 +425,93 @@ export default function App() {
           </div>
         </section>
 
+        {/* Product screenshots: the real platform, map on the right like the hero */}
+        <section
+          id="plataforma"
+          className="py-16 sm:py-20 border-b border-[var(--line)] bg-[var(--sheet-subtle)]"
+          aria-labelledby="plataforma-h"
+        >
+          {(() => {
+            const isElec = heroSegment === 'electrica';
+            const main = isElec ? SCREENS.electrica : SCREENS.ductos;
+            const rest = [isElec ? SCREENS.ductos : SCREENS.electrica, SCREENS.flujo, SCREENS.mantenimiento];
+            return (
+              <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                  <div className="lg:col-span-4 grid gap-3">
+                    <p className="font-mono-tech text-xs uppercase tracking-[0.14em] text-[var(--crude)]">
+                      La plataforma · {main.tag}
+                    </p>
+                    <h2
+                      id="plataforma-h"
+                      className="text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--ink)]"
+                    >
+                      Toda su red en un mapa satelital, con el estado de cada estación
+                    </h2>
+                    <p className="text-base text-[var(--muted)] leading-relaxed">{main.desc}</p>
+                    <p className="text-sm text-[var(--muted)] leading-relaxed">
+                      Su equipo abre el mapa, ve qué estación está en rojo, revisa la lectura y asigna la OT sin cambiar
+                      de sistema. Pantallas reales con datos de demostración.
+                    </p>
+                    <a
+                      href="#contacto"
+                      className="group inline-flex items-center gap-2 self-start mt-1 px-5 py-3 rounded-md bg-[var(--crude)] hover:bg-[var(--crude-hover)] text-[var(--crude-ink)] text-sm font-semibold shadow-sm transition-colors"
+                    >
+                      Ver mi red así en 48 h
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                    </a>
+                  </div>
+
+                  <figure className="lg:col-span-8 m-0 min-w-0">
+                    <a
+                      href={main.src}
+                      target="_blank"
+                      rel="noopener"
+                      className="block rounded-xl border border-[var(--line)] overflow-hidden shadow-xl"
+                      aria-label={`Ampliar imagen: ${main.title}`}
+                    >
+                      <img
+                        src={main.src}
+                        width={main.w}
+                        height={main.h}
+                        alt={main.alt}
+                        fetchPriority="high"
+                        className="w-full h-auto block"
+                      />
+                    </a>
+                    <figcaption className="mt-2.5 font-mono-tech text-xs text-[var(--muted)]">{main.title}</figcaption>
+                  </figure>
+                </div>
+
+                <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {rest.map((sc) => (
+                    <figure
+                      key={sc.src}
+                      className="m-0 rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col transition-[border-color,box-shadow] hover:border-[var(--ink)]/30 hover:shadow-md"
+                    >
+                      <a href={sc.src} target="_blank" rel="noopener" className="block" aria-label={`Ampliar imagen: ${sc.title}`}>
+                        <img
+                          src={sc.src}
+                          width={sc.w}
+                          height={sc.h}
+                          alt={sc.alt}
+                          loading="lazy"
+                          className="w-full aspect-video object-cover object-left-top block border-b border-[var(--line)]"
+                        />
+                      </a>
+                      <figcaption className="p-5 grid gap-1.5">
+                        <span className="font-mono-tech text-xs uppercase tracking-wider text-[var(--crude)]">{sc.tag}</span>
+                        <strong className="font-display text-xl font-semibold leading-snug text-[var(--ink)]">{sc.title}</strong>
+                        <span className="text-sm text-[var(--muted)] leading-relaxed">{sc.desc}</span>
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+        </section>
+
         {/* Problem Statement */}
         <section id="dolores" className="py-16 sm:py-20 border-b border-[var(--line)]" aria-labelledby="dolores-h">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -501,78 +588,6 @@ export default function App() {
               Arteria junta el mapa 3D, la lectura de cada sensor, la alerta y la orden de trabajo en una sola pantalla.
               Cuando algo falla, su equipo ve el tramo exacto, la gravedad y qué operario tiene la orden abierta.
             </p>
-          </div>
-        </section>
-
-        {/* Product screenshots: the real platform */}
-        <section
-          id="plataforma"
-          className="py-16 sm:py-20 border-b border-[var(--line)] bg-[var(--sheet-subtle)]"
-          aria-labelledby="plataforma-h"
-        >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="max-w-2xl mb-10">
-              <p className="font-mono-tech text-xs uppercase tracking-[0.14em] text-[var(--crude)]">La plataforma</p>
-              <h2 id="plataforma-h" className="mt-2 text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--ink)]">
-                Del sensor al mapa y del mapa a la orden de trabajo
-              </h2>
-              <p className="mt-3 text-base sm:text-lg text-[var(--muted)]">
-                Pantallas reales de Arteria con datos de demostración. Su equipo abre el mapa, ve qué estación está en
-                rojo, revisa la lectura y asigna la OT sin cambiar de sistema.
-              </p>
-            </div>
-
-            {(() => {
-              const isElec = heroSegment === 'electrica';
-              const main = isElec ? SCREENS.electrica : SCREENS.ductos;
-              const rest = [isElec ? SCREENS.ductos : SCREENS.electrica, SCREENS.flujo, SCREENS.mantenimiento];
-              return (
-                <>
-                  <figure className="m-0 rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden shadow-lg">
-                    <a href={main.src} target="_blank" rel="noopener" className="block" aria-label={`Ampliar imagen: ${main.title}`}>
-                      <img
-                        src={main.src}
-                        width={main.w}
-                        height={main.h}
-                        alt={main.alt}
-                        loading="lazy"
-                        className="w-full h-auto block"
-                      />
-                    </a>
-                    <figcaption className="p-5 sm:p-6 grid gap-1.5 border-t border-[var(--line)]">
-                      <span className="font-mono-tech text-xs uppercase tracking-wider text-[var(--crude)]">{main.tag}</span>
-                      <strong className="font-display text-2xl font-semibold text-[var(--ink)]">{main.title}</strong>
-                      <span className="text-sm text-[var(--muted)] leading-relaxed max-w-3xl">{main.desc}</span>
-                    </figcaption>
-                  </figure>
-
-                  <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {rest.map((sc) => (
-                      <figure
-                        key={sc.src}
-                        className="m-0 rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col transition-[border-color,box-shadow] hover:border-[var(--ink)]/30 hover:shadow-md"
-                      >
-                        <a href={sc.src} target="_blank" rel="noopener" className="block" aria-label={`Ampliar imagen: ${sc.title}`}>
-                          <img
-                            src={sc.src}
-                            width={sc.w}
-                            height={sc.h}
-                            alt={sc.alt}
-                            loading="lazy"
-                            className="w-full aspect-video object-cover object-left-top block border-b border-[var(--line)]"
-                          />
-                        </a>
-                        <figcaption className="p-5 grid gap-1.5">
-                          <span className="font-mono-tech text-xs uppercase tracking-wider text-[var(--crude)]">{sc.tag}</span>
-                          <strong className="font-display text-xl font-semibold leading-snug text-[var(--ink)]">{sc.title}</strong>
-                          <span className="text-sm text-[var(--muted)] leading-relaxed">{sc.desc}</span>
-                        </figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                </>
-              );
-            })()}
           </div>
         </section>
 
