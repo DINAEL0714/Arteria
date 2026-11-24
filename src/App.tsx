@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, Check, Menu, MessageCircle, Moon, Sun, X } from 'lucide-react';
+import { ArrowRight, Check, Database, Menu, MessageCircle, Moon, Sun, X } from 'lucide-react';
 import { PipeAnatomy3D } from './components/PipeAnatomy3D';
 import { LiveSchematic } from './components/LiveSchematic';
 import { DeviceCatalog } from './components/DeviceCatalog';
@@ -20,6 +20,45 @@ import {
 } from './data/arteriaData';
 
 type HeroSegment = LandingSegment;
+
+const SCREENS = {
+  ductos: {
+    src: '/assets/aistudio/mapa-ductos.webp',
+    w: 1902,
+    h: 830,
+    tag: 'Mapa 3D · Ductos',
+    title: '63 equipos y 66 estaciones de ductos en una sola vista satelital',
+    desc: 'Cada estación con su ícono y su estado. Arriba, uptime, equipos en nominal, advertencias, críticos y offline. La alerta crítica entra sola en la esquina.',
+    alt: 'Mapa 3D satelital de Colombia en Arteria con oleoductos y gasoductos, 66 estaciones, indicadores de uptime y alerta crítica de caudal',
+  },
+  electrica: {
+    src: '/assets/aistudio/mapa-electrico.webp',
+    w: 1906,
+    h: 890,
+    tag: 'Mapa 3D · Redes eléctricas',
+    title: 'Subestaciones, parques y torres con la frecuencia leída sobre el mapa',
+    desc: 'Cuando la frecuencia de Cuestecitas sube a 60,3 Hz, la etiqueta aparece sobre la subestación y el contador de críticos marca 2.',
+    alt: 'Mapa 3D satelital en Arteria con subestaciones y parques de generación, etiquetas de frecuencia en Hz y 2 alertas críticas',
+  },
+  flujo: {
+    src: '/assets/aistudio/flujo-datos.webp',
+    w: 1917,
+    h: 916,
+    tag: 'Flujo de datos',
+    title: 'Qué equipo reporta, cuál se retrasó y cuál nunca envió dato',
+    desc: 'Lecturas por minuto, estado de recepción por equipo y la ficha con tendencia de 24 h, lista para crear la OT.',
+    alt: 'Pantalla de flujo de datos en Arteria con lecturas por minuto, tabla de equipos recibiendo datos y ficha de una cámara perimetral',
+  },
+  mantenimiento: {
+    src: '/assets/aistudio/mantenimiento.webp',
+    w: 1901,
+    h: 906,
+    tag: 'Mantenimiento',
+    title: 'Órdenes abiertas, en curso y vencidas en un tablero',
+    desc: 'Cada OT con su equipo, prioridad, técnico y fecha. Desde la orden se salta al equipo en el mapa 3D.',
+    alt: 'Tablero de mantenimiento en Arteria con órdenes de trabajo abiertas, en curso y vencidas y el detalle de una calibración crítica',
+  },
+};
 
 const HERO_COPY: Record<
   HeroSegment,
@@ -192,11 +231,11 @@ export default function App() {
           {/* Zone 2: 5 concise single-line nav links */}
           <nav aria-label="Navegación principal" className="hidden md:flex items-center gap-6 text-sm font-medium">
             {[
+              ['/#plataforma', '#plataforma', 'Plataforma'],
               ['/#dispositivos', '#dispositivos', 'Dispositivos'],
               ['/#diagnostico', '#diagnostico', 'Diagnóstico'],
-              ['/#producto', '#producto', 'Producto'],
               ['/#sectores', '#sectores', 'Sectores'],
-              ['/#preguntas', '#preguntas', 'Preguntas'],
+              ['/#seguridad', '#seguridad', 'Seguridad'],
             ].map(([href, hash, label]) => (
               <a
                 key={hash}
@@ -260,6 +299,8 @@ export default function App() {
             className="md:hidden border-t border-[var(--line)] bg-[var(--sheet)] px-4 py-3 grid gap-1"
           >
             {[
+              ['/#plataforma', '#plataforma', 'Pantallas reales de la plataforma'],
+              ['/#seguridad', '#seguridad', 'Seguridad y propiedad de los datos'],
               ['/#dispositivos', '#dispositivos', 'Dispositivos y sensores en vivo'],
               ['/#diagnostico', '#diagnostico', 'Calculadora de piloto (30 días)'],
               ['/#producto', '#producto', 'Recorrido de pantallas por sector'],
@@ -460,6 +501,78 @@ export default function App() {
               Arteria junta el mapa 3D, la lectura de cada sensor, la alerta y la orden de trabajo en una sola pantalla.
               Cuando algo falla, su equipo ve el tramo exacto, la gravedad y qué operario tiene la orden abierta.
             </p>
+          </div>
+        </section>
+
+        {/* Product screenshots: the real platform */}
+        <section
+          id="plataforma"
+          className="py-16 sm:py-20 border-b border-[var(--line)] bg-[var(--sheet-subtle)]"
+          aria-labelledby="plataforma-h"
+        >
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <div className="max-w-2xl mb-10">
+              <p className="font-mono-tech text-xs uppercase tracking-[0.14em] text-[var(--crude)]">La plataforma</p>
+              <h2 id="plataforma-h" className="mt-2 text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--ink)]">
+                Del sensor al mapa y del mapa a la orden de trabajo
+              </h2>
+              <p className="mt-3 text-base sm:text-lg text-[var(--muted)]">
+                Pantallas reales de Arteria con datos de demostración. Su equipo abre el mapa, ve qué estación está en
+                rojo, revisa la lectura y asigna la OT sin cambiar de sistema.
+              </p>
+            </div>
+
+            {(() => {
+              const isElec = heroSegment === 'electrica';
+              const main = isElec ? SCREENS.electrica : SCREENS.ductos;
+              const rest = [isElec ? SCREENS.ductos : SCREENS.electrica, SCREENS.flujo, SCREENS.mantenimiento];
+              return (
+                <>
+                  <figure className="m-0 rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden shadow-lg">
+                    <a href={main.src} target="_blank" rel="noopener" className="block" aria-label={`Ampliar imagen: ${main.title}`}>
+                      <img
+                        src={main.src}
+                        width={main.w}
+                        height={main.h}
+                        alt={main.alt}
+                        loading="lazy"
+                        className="w-full h-auto block"
+                      />
+                    </a>
+                    <figcaption className="p-5 sm:p-6 grid gap-1.5 border-t border-[var(--line)]">
+                      <span className="font-mono-tech text-xs uppercase tracking-wider text-[var(--crude)]">{main.tag}</span>
+                      <strong className="font-display text-2xl font-semibold text-[var(--ink)]">{main.title}</strong>
+                      <span className="text-sm text-[var(--muted)] leading-relaxed max-w-3xl">{main.desc}</span>
+                    </figcaption>
+                  </figure>
+
+                  <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {rest.map((sc) => (
+                      <figure
+                        key={sc.src}
+                        className="m-0 rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col transition-[border-color,box-shadow] hover:border-[var(--ink)]/30 hover:shadow-md"
+                      >
+                        <a href={sc.src} target="_blank" rel="noopener" className="block" aria-label={`Ampliar imagen: ${sc.title}`}>
+                          <img
+                            src={sc.src}
+                            width={sc.w}
+                            height={sc.h}
+                            alt={sc.alt}
+                            loading="lazy"
+                            className="w-full aspect-video object-cover object-left-top block border-b border-[var(--line)]"
+                          />
+                        </a>
+                        <figcaption className="p-5 grid gap-1.5">
+                          <span className="font-mono-tech text-xs uppercase tracking-wider text-[var(--crude)]">{sc.tag}</span>
+                          <strong className="font-display text-xl font-semibold leading-snug text-[var(--ink)]">{sc.title}</strong>
+                          <span className="text-sm text-[var(--muted)] leading-relaxed">{sc.desc}</span>
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </section>
 
@@ -923,8 +1036,41 @@ export default function App() {
                 Seguridad de los datos
               </p>
               <h2 id="seguridad-h" className="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--ink)]">
-                Cada empresa ve solo lo suyo
+                Sus datos son suyos y cada empresa ve solo lo suyo
               </h2>
+
+              <div className="mt-8 rounded-xl border-2 border-[var(--crude)]/40 bg-[var(--sheet)] p-5 sm:p-6 grid gap-3">
+                <div className="flex items-center gap-3">
+                  <span
+                    aria-hidden="true"
+                    className="w-10 h-10 rounded-lg bg-[var(--crude)]/12 text-[var(--crude)] grid place-items-center shrink-0"
+                  >
+                    <Database className="w-5 h-5" />
+                  </span>
+                  <strong className="font-display text-2xl font-semibold text-[var(--ink)]">
+                    Acceso directo a su base de datos
+                  </strong>
+                </div>
+                <p className="m-0 text-sm sm:text-base text-[var(--muted)] leading-relaxed">
+                  Su empresa recibe acceso a su propia base de datos y al modelo de datos de Arteria: redes, estaciones,
+                  equipos, lecturas, alertas y órdenes de trabajo. Su equipo de TI puede consultarla, conectar Power BI o
+                  su SIG y auditar cada registro sin pedirnos un archivo.
+                </p>
+                <ul className="m-0 p-0 list-none grid sm:grid-cols-2 gap-2 text-sm text-[var(--ink)]">
+                  {[
+                    'Base de datos propia de su empresa',
+                    'Modelo de datos entregado a su TI',
+                    'Histórico de lecturas consultable',
+                    'Si termina el contrato, se lleva todo',
+                  ].map((t) => (
+                    <li key={t} className="flex items-start gap-2">
+                      <Check className="w-4 h-4 mt-0.5 shrink-0 text-[var(--ok)]" aria-hidden="true" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               <ul className="mt-8 grid gap-5 list-none p-0 m-0">
                 {SECURITY_CHECKS.map((item) => (
                   <li key={item.title} className="flex items-start gap-3">
