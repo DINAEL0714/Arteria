@@ -34,10 +34,10 @@ const HERO_COPY: Record<
 > = {
   todos: {
     kicker: 'Software IoT · Ductos, agua y redes eléctricas',
-    headlinePrefix: 'Supervise sus redes críticas en ',
+    headlinePrefix: 'Vea en ',
     headlineAccent: '3D',
-    headlineSuffix: ', antes de que llegue el reporte de campo',
-    lede: 'Arteria centraliza ductos, acueductos y líneas eléctricas en 3D con la lectura en vivo de cada sensor, identifica fallas al instante, abre la orden de trabajo y notifica directamente a los operarios en campo.',
+    headlineSuffix: ' qué tramo falla antes de que llegue el reporte de campo',
+    lede: 'Arteria pone sus ductos, acueductos y líneas eléctricas en un mapa 3D con la lectura en vivo de cada sensor. Cuando un valor sale de rango, abre la orden de trabajo y avisa al operario en campo.',
     pipeProduct: 'crudo',
   },
   hidrocarburos: {
@@ -161,6 +161,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--paper)] text-[var(--ink)]">
+      <a
+        href="#inicio"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-md focus:bg-[var(--ink)] focus:text-[var(--paper)] focus:text-sm focus:font-semibold"
+      >
+        Saltar al contenido
+      </a>
       {/* Top Bar: strict 3-zone contract + Mobile drawer & persistent theme switch */}
       <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--paper)]/92 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 sm:gap-8">
@@ -295,20 +301,7 @@ export default function App() {
         <section className="blueprint-grid border-b border-[var(--line)] py-12 sm:py-16 lg:py-20" aria-label="Presentación">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <div className="lg:col-span-5 grid gap-5 min-w-0">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="font-mono-tech text-xs uppercase tracking-[0.12em] text-[var(--crude)]">
-                  {hero.kicker}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setDark((d) => !d)}
-                  aria-label={dark ? 'Cambiar a lámina clara' : 'Cambiar a lámina oscura'}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-[var(--line)] bg-[var(--sheet)] text-xs font-mono-tech text-[var(--muted)] hover:text-[var(--ink)] transition-colors cursor-pointer whitespace-nowrap shrink-0"
-                >
-                  {dark ? <Sun className="w-3.5 h-3.5" aria-hidden="true" /> : <Moon className="w-3.5 h-3.5" aria-hidden="true" />}
-                  {dark ? 'Lámina clara' : 'Lámina oscura'}
-                </button>
-              </div>
+              <p className="font-mono-tech text-xs uppercase tracking-[0.12em] text-[var(--crude)]">{hero.kicker}</p>
 
               {/* Immediate B2B Industry Segmenter — filters the entire landing page */}
               <div className="grid gap-1.5">
@@ -330,7 +323,7 @@ export default function App() {
                       type="button"
                       onClick={() => setHeroSegment(key)}
                       aria-pressed={heroSegment === key}
-                      className={`px-3 py-1.5 text-xs font-medium rounded transition-colors cursor-pointer whitespace-nowrap ${
+                      className={`px-3 py-2 text-xs font-medium rounded transition-colors cursor-pointer whitespace-nowrap ${
                         heroSegment === key
                           ? 'bg-[var(--ink)] text-[var(--paper)]'
                           : 'text-[var(--muted)] hover:text-[var(--ink)]'
@@ -340,7 +333,7 @@ export default function App() {
                     </button>
                   ))}
                 </div>
-                <p className="font-mono-tech text-[11px] text-[var(--muted)]">
+                <p className="font-mono-tech text-xs text-[var(--muted)]" aria-live="polite">
                   {heroSegment === 'todos'
                     ? 'Elige un sector para ver solo sus sensores, pantallas y diagnóstico.'
                     : 'Mostrando vista 3D, sensores, pantallas y diagnóstico filtrados para tu sector.'}
@@ -358,21 +351,31 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <a
                   href="#contacto"
-                  className="px-5 py-3 rounded-md bg-[var(--crude)] hover:bg-[var(--crude-hover)] text-[var(--crude-ink)] text-sm font-semibold transition-colors whitespace-nowrap shrink-0"
+                  className="group inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--crude)] hover:bg-[var(--crude-hover)] text-[var(--crude-ink)] text-sm font-semibold shadow-sm transition-colors whitespace-nowrap shrink-0"
                 >
-                  Ver mi KML en 3D (48 h)
+                  Ver mi red en 3D en 48 h
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                 </a>
                 <a
                   href="#diagnostico"
                   className="px-5 py-3 rounded-md border border-[var(--line)] bg-[var(--sheet)] hover:border-[var(--ink)]/40 text-[var(--ink)] text-sm font-semibold transition-colors whitespace-nowrap shrink-0"
                 >
-                  Evaluar mi red ahora
+                  Calcular mi piloto
                 </a>
               </div>
 
-              <p className="font-mono-tech text-xs text-[var(--muted)] pt-1">
-                Compatible con sus sensores y su SCADA actuales · Piloto de 30 días sin cambiar PLCs
-              </p>
+              <ul className="grid gap-1.5 pt-1 list-none p-0 m-0 text-sm text-[var(--muted)]">
+                {[
+                  'Maqueta 3D gratuita con su trazado KML, KMZ o GeoJSON',
+                  'Lee sus sensores y su SCADA actuales sin tocar la lógica de los PLC',
+                  'Piloto de 30 días sobre un tramo real de su red',
+                ].map((t) => (
+                  <li key={t} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 mt-0.5 shrink-0 text-[var(--ok)]" aria-hidden="true" />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="lg:col-span-7 min-w-0">
@@ -454,9 +457,8 @@ export default function App() {
             </div>
 
             <p className="mt-8 text-base sm:text-lg text-[var(--ink)] max-w-3xl leading-relaxed">
-              Arteria junta en un solo lugar el mapa 3D, la lectura de cada sensor, la alerta y la orden de trabajo.
-              Cuando algo falla, su equipo ve dónde, qué tan grave es, a quién se le notificó la orden en campo y su
-              estado de atención.
+              Arteria junta el mapa 3D, la lectura de cada sensor, la alerta y la orden de trabajo en una sola pantalla.
+              Cuando algo falla, su equipo ve el tramo exacto, la gravedad y qué operario tiene la orden abierta.
             </p>
           </div>
         </section>
@@ -532,7 +534,7 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <article className="rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col justify-between">
+              <article className="rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col justify-between transition-[border-color,box-shadow] hover:border-[var(--ink)]/30 hover:shadow-md">
                 <div>
                   <img
                     src="/assets/aistudio/ducto_42a94bfc.jpg"
@@ -594,14 +596,14 @@ export default function App() {
                       e.preventDefault();
                       navigateTo('/soluciones/oleoductos-api-1130');
                     }}
-                    className="font-mono-tech text-[11px] text-[var(--muted)] hover:text-[var(--ink)] hover:underline underline-offset-4 whitespace-nowrap"
+                    className="font-mono-tech text-xs text-[var(--muted)] hover:text-[var(--ink)] hover:underline underline-offset-4 whitespace-nowrap"
                   >
                     Página dedicada
                   </a>
                 </div>
               </article>
 
-              <article className="rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col justify-between">
+              <article className="rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col justify-between transition-[border-color,box-shadow] hover:border-[var(--ink)]/30 hover:shadow-md">
                 <div>
                   <img
                     src="/assets/aistudio/agua_e86174d9.jpg"
@@ -676,14 +678,14 @@ export default function App() {
                       e.preventDefault();
                       navigateTo('/soluciones/agua-no-contabilizada-acueductos');
                     }}
-                    className="font-mono-tech text-[11px] text-[var(--muted)] hover:text-[var(--ink)] hover:underline underline-offset-4 whitespace-nowrap"
+                    className="font-mono-tech text-xs text-[var(--muted)] hover:text-[var(--ink)] hover:underline underline-offset-4 whitespace-nowrap"
                   >
                     Página dedicada
                   </a>
                 </div>
               </article>
 
-              <article className="rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col justify-between">
+              <article className="rounded-xl border border-[var(--line)] bg-[var(--sheet)] overflow-hidden flex flex-col justify-between transition-[border-color,box-shadow] hover:border-[var(--ink)]/30 hover:shadow-md">
                 <div>
                   <img
                     src="/assets/aistudio/image_cc72a94d.png"
@@ -759,7 +761,7 @@ export default function App() {
                       e.preventDefault();
                       navigateTo('/soluciones/redes-electricas-subestaciones-3d');
                     }}
-                    className="font-mono-tech text-[11px] text-[var(--muted)] hover:text-[var(--ink)] hover:underline underline-offset-4 whitespace-nowrap"
+                    className="font-mono-tech text-xs text-[var(--muted)] hover:text-[var(--ink)] hover:underline underline-offset-4 whitespace-nowrap"
                   >
                     Página dedicada
                   </a>
@@ -778,8 +780,8 @@ export default function App() {
                 Se conecta a los equipos que ya tiene
               </h2>
               <p className="mt-3 text-base sm:text-lg text-[var(--muted)]">
-                No hace falta cambiar sensores. Los equipos nuevos publican directo; los PLC y el SCADA existentes entran
-                por un gateway que traduce sus protocolos.
+                Sus sensores actuales se quedan donde están. Los equipos nuevos publican directo a Arteria; los PLC y el
+                SCADA existentes entran por un gateway que traduce sus protocolos.
               </p>
             </div>
 
@@ -828,7 +830,7 @@ export default function App() {
                 Cuatro indicadores que Arteria calcula sola
               </h2>
               <p className="mt-3 text-base sm:text-lg text-[var(--muted)]">
-                Salen de los datos reales de la red, no de una encuesta. Las cifras corresponden a las redes de
+                Se calculan con las lecturas de sus propios sensores. Las cifras de abajo corresponden a las redes de
                 demostración.
               </p>
             </div>
